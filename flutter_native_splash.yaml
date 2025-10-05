@@ -1,0 +1,15 @@
+flutter_native_splash:
+  android: true
+  ios: true
+
+  color: "#FFFFFF"                   
+
+ 
+  image: assets/images/im_wedding.png
+
+  
+  android_12:
+    color: "#FFFFFF"
+    image: assets/images/im_wedding.png
+    
+    fullscreen: true    
