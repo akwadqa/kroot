@@ -1,4 +1,4 @@
-# wedding_app
+# Kroot
 
 A new Flutter project about wddings and events common.
 
