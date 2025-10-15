@@ -1,20 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:queen_validators/queen_validators.dart';
-import 'package:wedding_app/features/Auth/presentation/controller/auth_controller.dart';
-import 'package:wedding_app/features/auth/data/models/login_params.dart';
-import 'package:wedding_app/features/auth/presentation/controller/auth_controller.dart'
-    hide authControllerProvider;
-import 'package:wedding_app/features/auth/presentation/widgets/email_text_form_field.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedding_app/features/auth/presentation/widgets/login_page/login_page_email_auth.dart';
+import 'package:wedding_app/features/auth/presentation/widgets/login_page/login_page_google_auth.dart';
+import 'package:wedding_app/features/auth/presentation/widgets/login_page/login_page_number_field.dart';
+import 'package:wedding_app/features/auth/presentation/widgets/login_page/login_page_signin_button.dart';
+import 'package:wedding_app/features/auth/presentation/widgets/login_page/login_page_terms_section.dart';
 import 'package:wedding_app/src/extenssions/int_extenssion.dart';
 import 'package:wedding_app/gen/assets.gen.dart';
-import 'package:wedding_app/src/routing/app_router.gr.dart';
-import 'package:wedding_app/src/shared_widgets/app_dialogs.dart';
-import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
-import 'package:wedding_app/src/shared_widgets/notify_snackbar.dart';
+import 'package:wedding_app/src/extenssions/widget_extensions.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:wedding_app/src/theme/app_text_style.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
@@ -27,164 +24,109 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _obscurePassword = true; // 👈 control password visibility
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      body: Container(
-        height: screenHeight,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          // gradient: LinearGradient(
-          //   begin: Alignment.bottomCenter,
-          //   end: Alignment.topCenter,
-          //   colors: AppColors.splashGradientColors,
-          //   stops: AppColors.splashGradientStops,
-          //   transform: GradientRotation(138.65 * 3.14159265359 / 180),
-          // ),
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: screenHeight),
-              child: IntrinsicHeight(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 40),
-                      Center(
-                        child: Assets.images.imWedding.image(
-                          fit: BoxFit.contain,
-                          // width: 231,
-                          // height: 231,
-                        ),
-                      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 22.w),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              103.verticalSpace,
+              //? Whatsapp icon :
+              Center(child: Assets.icons.whatsappIc.svg()),
+              20.verticalSpace,
 
-                      Text(
-                        "welcome_msg".tr(),
-                        style: Theme.of(context).textTheme.displaySmall,
-                      ),
-                      SizedBox(height: 30),
-                      EmailTextFormField(controller: _emailController),
+              //? Title :
+              Text(
+                // "LogInUsingWhatsAppNumber".tr(),
+                context.tr('LogInUsingWhatsAppNumber'),
+                textAlign: TextAlign.center,
+                style: AppTextStyle.rubikMedium20.copyWith(
+                  color: AppColors.primary,
+                ),
+              ).symmetricPadding(horizontal: 10.w),
+              20.verticalSpace,
 
-                      24.verticalSpace,
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: _obscurePassword,
-                        obscuringCharacter: '*',
-                        decoration: InputDecoration(
-                          hintText: "password".tr(),
-                          hintStyle: Theme.of(context).textTheme.labelSmall!
-                              .copyWith(fontSize: 14, color: AppColors.grey600),
-                          prefixIcon: Icon(Icons.lock_open_outlined),
-                          // 👇 Suffix eye icon
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscurePassword
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              size: 20,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _obscurePassword = !_obscurePassword;
-                              });
-                            },
-                          ),
-                        ),
-                        validator: (pass) => validatePassword(pass, context),
-                      ),
+              //? Send verification :
+              Text(
+                context.tr('sendVerificationCode'),
+                textAlign: TextAlign.center,
+                style: AppTextStyle.rubikRegular16.copyWith(
+                  color: AppColors.primary,
+                ),
+              ).symmetricPadding(horizontal: 34.w),
+              20.verticalSpace,
 
-                      const Spacer(),
-                      Consumer(
-                        builder: (context, ref, child) {
-                          ref.listen(authControllerProvider, (prev, next) {
-            //                         if (next is AsyncData) {
-            // } else if (next is AsyncError) {
-            //   showErrorDialog(context, next.error.toString());
-            // }
-                            if (prev is AsyncLoading && next is AsyncData) {
-                              
-                              notifyUser(
-                                context: context,
-                                message: 'sign_in_done_successfully'.tr(),
-                                success: true,
-                              );
-              context.navigateTo(MainRoute());
+              //? Number field :
+              LoginPageNumberField(),
+              20.verticalSpace,
 
-                            } else if (next is AsyncError) {
-              showErrorDialog(context, next.error.toString());
+              //? Login button :
+              LoginPageSigninButton(),
+              15.verticalSpace,
 
-                              notifyUser(
-                                context: context,
-                                message: next.error.toString(),
-                                success: false,
-                              );
-                            }
-                          });
-                          final asyncLogin = ref.watch(authControllerProvider);
-
-                          return CustomButtonWidget(
-                            backgroundColor: AppColors.primary,
-                            text: tr(context: context, "login"),
-                            onTap: asyncLogin is AsyncLoading
-                                ? null
-                                :() {  
-                                    if (_formKey.currentState!.validate()) {
-                                      ref
-                                          .read(authControllerProvider.notifier)
-                                          .login(
-                                            LoginParams(
-                                              email: _emailController.text,
-                                              pass: _passwordController.text,
-                                            ),
-                                          );
-                                    
-                                  }},
-                            isFiled: true,
-                            height: 55,
-                            width: 300,
-                          );
-                        },
-                      ),
-                      const Spacer(),
-                    ],
+              //? Signup section :
+              Text.rich(
+                TextSpan(
+                  text: context.tr('don’tHaveAnAccountYet'),
+                  style: AppTextStyle.rubikRegular14.copyWith(
+                    color: AppColors.primary,
                   ),
+                  children: [
+                    TextSpan(
+                      text: context.tr('signUp'),
+                      style: AppTextStyle.rubikMedium15.copyWith(
+                        color: AppColors.primary,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
+              20.verticalSpace,
+
+              //? Or section :
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(height: 1.h, color: AppColors.grayBorder),
+                  ),
+                  16.horizontalSpace,
+                  Text(
+                    context.tr('or'),
+                    style: AppTextStyle.bodyXsmallRegular.copyWith(
+                      color: AppColors.gray,
+                    ),
+                  ),
+                  16.horizontalSpace,
+                  Expanded(
+                    child: Container(height: 1.h, color: AppColors.grayBorder),
+                  ),
+                ],
+              ),
+
+              20.verticalSpace,
+
+              //? Email auth
+              LoginPageEmailAuth(),
+              20.verticalSpace,
+
+              //? Google auth
+              LoginPageGoogleAuth(),
+              20.verticalSpace,
+
+              //? Privacy :
+              LoginPageTermsSection(),
+              20.verticalSpace,
+            ],
           ),
         ),
       ),
     );
-  }
-
-  static String? validatePassword(String? value, BuildContext context) {
-    int passLengthRule = 6;
-    if (value == null || value.isEmpty) {
-      return tr(context: context, "please_enter_password".tr());
-    }
-    if (value.length < passLengthRule) {
-      return "password_short_lenght".tr(args: ['$passLengthRule']);
-    }
-    return null;
   }
 }

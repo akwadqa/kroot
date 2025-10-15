@@ -57,6 +57,9 @@ class $AssetsIconsGen {
   SvgGenImage get documentIc =>
       const SvgGenImage('assets/icons/document_ic.svg');
 
+  /// File path: assets/icons/email_ic.svg
+  SvgGenImage get emailIc => const SvgGenImage('assets/icons/email_ic.svg');
+
   /// File path: assets/icons/google_ic.svg
   SvgGenImage get googleIc => const SvgGenImage('assets/icons/google_ic.svg');
 
@@ -82,6 +85,10 @@ class $AssetsIconsGen {
   SvgGenImage get verifiedCheckIc =>
       const SvgGenImage('assets/icons/verifiedCheck_ic.svg');
 
+  /// File path: assets/icons/whatsapp_ic.svg
+  SvgGenImage get whatsappIc =>
+      const SvgGenImage('assets/icons/whatsapp_ic.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
     appleIc,
@@ -91,6 +98,7 @@ class $AssetsIconsGen {
     creditCardIc,
     creditCardIcn,
     documentIc,
+    emailIc,
     googleIc,
     home,
     mobileIc,
@@ -99,6 +107,7 @@ class $AssetsIconsGen {
     qr,
     settings,
     verifiedCheckIc,
+    whatsappIc,
   ];
 }
 
@@ -129,6 +138,9 @@ class $AssetsImagesGen {
   AssetGenImage get qatarCountry =>
       const AssetGenImage('assets/images/qatar_country.png');
 
+  /// File path: assets/images/splash.png
+  AssetGenImage get splash => const AssetGenImage('assets/images/splash.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     checkDoneImage,
@@ -137,6 +149,7 @@ class $AssetsImagesGen {
     personalImage,
     qatarCircl,
     qatarCountry,
+    splash,
   ];
 }
 

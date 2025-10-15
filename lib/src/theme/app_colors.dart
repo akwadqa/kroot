@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class AppColors {
-  static const Color primary = Color(0xFF643706);
+  static const Color primary = Color(0xFF1E2E4F);
   static const MaterialColor primarySwatch = MaterialColor(
     0xFFFD4057, // Base color
     <int, Color>{
@@ -17,7 +17,9 @@ abstract class AppColors {
       900: Color(0xFFB71C1C),
     },
   );
-  static const Color gray = Color(0xFFAAAAAA);
+  static const Color gray = Color(0xFF6C7278);
+  static const Color grayHint = Color(0xFF767676);
+  static const Color grayShadow = Color(0xffE4E5E7);
   static const Color rose = Color(0xFFF8D5CC);
   static const Color darkRed = Color(0xFFBC0000);
   static const Color black900 = Color(0xFF484848);
@@ -25,7 +27,7 @@ abstract class AppColors {
   static const Color grey600 = Color(0xFF757575);
   static const Color green = Color(0xFF69A94B);
   static const Color mediumGray = Color(0xFFD7D7D7);
-  static const Color grayBorder = Color(0xFFCCCCCC);
+  static const Color grayBorder = Color(0xFFEDF1F3);
   static const Color darkGray = Color(0xFF727272);
   static const Color lightGray01 = Color(0xFFF1F1F1);
   static const Color lightGray02 = Color(0xFFD9D9D9);
@@ -46,6 +48,7 @@ abstract class AppColors {
   static const Color replayGrey = Color(0xFFF4F4F3);
 
   static const Color black = Color(0xFF000000);
+  static const Color secondary500 = Color(0xFF1A1C1E);
   static const Color dark = Color(0xFF201C11);
 
 
