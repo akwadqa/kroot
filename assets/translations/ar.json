@@ -131,5 +131,6 @@
     "agreeWith": " أوافق على",
     "terms&conditions": "الشروط والأحكام",
     "findEventHere" : "ابحث عن حدث هنا",
-    "allEvents" : "كل الأحداث"
+    "allEvents" : "كل الأحداث",
+    "resendCode" : "تم اعادة ارسال الرمز بنجاح"
 }

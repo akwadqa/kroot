@@ -13,19 +13,20 @@ class GoRouterApp {
       GoRoute(
         path: Routes.login,
         builder: (context, state) => LoginScreen(),
-        // builder: (context, state) => CreateAccountScreen(),
+        // builder: (context, state) => CreateAccountScreen(number: '999999999'),
       ),
 
       //? Verification :
       GoRoute(
         path: Routes.verification,
-        builder: (context, state) => VerificationScreen(),
+        builder: (context, state) => VerificationScreen(state.extra as String?),
       ),
 
       //? Verification :
       GoRoute(
         path: Routes.creataAccount,
-        builder: (context, state) => CreateAccountScreen(number: state.extra as String,),
+        builder: (context, state) =>
+            CreateAccountScreen(number: state.extra as String),
       ),
 
       //****************** Home  ***********/

@@ -115,5 +115,6 @@
     "agreeWith" : "Agree With ",
     "terms&conditions" : "Terms & Condition",
     "findEventHere" : "Find Event Here",
-    "allEvents" : "All Events"
+    "allEvents" : "All Events",
+    "resendCode": "The code resend successful"
 }

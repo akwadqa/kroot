@@ -8,7 +8,7 @@ part 'current_language.g.dart';
 class CurrentLanguage extends _$CurrentLanguage {
   @override
   String build() {
-    return 'en';
+    return 'ar';
   }
 
   void changeLanguage(BuildContext context, String languageCode) {

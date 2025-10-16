@@ -80,9 +80,9 @@ class AuthController extends _$AuthController {
   //   });
   // }
 
-  Future<void> sendOtp(String number) async {
+  Future<void> sendOtp({required String number , bool isFromCreate = false}) async {
     try {
-      state = const AsyncLoading();
+     if(!isFromCreate) state = const AsyncLoading();
       final result = await ref
           .read(authRepositoryProvider)
           .sendOtp(number: number);
@@ -90,7 +90,7 @@ class AuthController extends _$AuthController {
       if (result.status != 200 && result.status != 404) {
         throw Exception(result.message);
       }
-      state = AsyncData(
+    if(!isFromCreate)   state = AsyncData(
         state.value?.copyWith(sendOtpResponse: result.data) ??
             AuthControllerState(sendOtpResponse: result.data),
       );
@@ -99,13 +99,13 @@ class AuthController extends _$AuthController {
     }
   }
 
-  Future<void> verifyOtp(String otp) async {
+  Future<void> verifyOtp(String otp, String? numberNull) async {
     try {
       final number = state.value?.sendOtpResponse?.mobile_number;
       state = const AsyncLoading();
       final result = await ref
           .read(authRepositoryProvider)
-          .verifyOtp(number: number ?? '', otp: otp);
+          .verifyOtp(number: numberNull ?? number ?? '', otp: otp);
 
       if (result.hasFailed) {
         throw Exception(result.message);

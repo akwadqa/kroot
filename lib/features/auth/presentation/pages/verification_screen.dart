@@ -21,7 +21,8 @@ import 'package:pinput/pinput.dart';
 import 'package:wedding_app/src/utils/app_alert.dart';
 
 class VerificationScreen extends ConsumerStatefulWidget {
-  const VerificationScreen({super.key});
+  const VerificationScreen(this.number, {super.key});
+  final String? number;
 
   @override
   ConsumerState<VerificationScreen> createState() => _VerificationScreenState();
@@ -33,6 +34,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
   void initState() {
     super.initState();
     controller = TextEditingController();
+    if (widget.number != null) {}
   }
 
   @override
@@ -51,9 +53,8 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
       }
 
       if (next is AsyncError) {
-        context.pop();
+        if (prev is AsyncLoading) context.pop();
         Future.delayed(const Duration(milliseconds: 100), () {
-          print('errorrr');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               behavior: SnackBarBehavior.floating,
@@ -68,7 +69,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
         if (ref.read(authUiControllerProvider).isResendVisible) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text('here send')));
+          ).showSnackBar(SnackBar(content: Text(context.tr('resendCode'))));
         } else {
           context.push(Routes.home);
         }
@@ -130,7 +131,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
                       );
                       return Text(
                         // ' +974*******72',
-                        number ?? '',
+                        widget.number ?? number ?? '',
                         style: AppTextStyle.rubikRegular16.copyWith(
                           color: AppColors.primary,
                         ),
@@ -153,7 +154,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
                       if (_key.currentState!.validate()) {
                         ref
                             .read(authControllerProvider.notifier)
-                            .verifyOtp(controller.text);
+                            .verifyOtp(controller.text, widget.number);
                       }
                     }
                   : null,
@@ -177,7 +178,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
 
                   ref
                       .read(authControllerProvider.notifier)
-                      .sendOtp(number ?? '');
+                      .sendOtp(number: widget.number ?? number ?? '');
                 },
                 child: Text(
                   'Resend code',
@@ -223,7 +224,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
                               if (_key.currentState!.validate()) {
                                 ref
                                     .read(authControllerProvider.notifier)
-                                    .verifyOtp(controller.text);
+                                    .verifyOtp(controller.text, widget.number);
                               }
                             }
                           : null,

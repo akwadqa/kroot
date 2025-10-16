@@ -115,7 +115,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         if (_formKey.currentState?.validate() ?? false) {
                           ref
                               .read(authControllerProvider.notifier)
-                              .sendOtp(_controller.text);
+                              .sendOtp(number: _controller.text);
                           // .sendOtp('999888777666');
                         }
                       }

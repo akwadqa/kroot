@@ -62,7 +62,14 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
 
       if (next is AsyncData) {
         context.pop();
-        context.push(Routes.home);
+        // context.push(Routes.home);
+        context.push(Routes.verification, extra: widget.number);
+        ref
+            .read(authControllerProvider.notifier)
+            .sendOtp(number: widget.number, isFromCreate: true);
+        ref
+            .read(authUiControllerProvider.notifier)
+            .makeResendButtonVisibleOrNo(false);
 
         // ref.read(authUiControllerProvider.notifier).checkPhoneFilled(false);
       }
