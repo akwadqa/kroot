@@ -1,4 +1,4 @@
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedding_app/gen/assets.gen.dart';
@@ -8,6 +8,7 @@ import 'package:wedding_app/src/theme/app_text_style.dart';
 class CreataAccountField extends StatelessWidget {
   const CreataAccountField({
     super.key,
+    required this.controller,
     required this.hint,
     required this.label,
     required this.icon,
@@ -16,6 +17,25 @@ class CreataAccountField extends StatelessWidget {
   final String hint, label;
   final SvgGenImage icon;
   final bool isRequired;
+  final TextEditingController controller;
+
+  String? requiredVal(String? val, BuildContext context) {
+    if ((val?.isEmpty ?? true) || val == null) {
+      return context.tr('required');
+    }
+    return null;
+  }
+
+  String? emailVal(String? val, BuildContext context) {
+    if ((val?.isEmpty ?? true) || val == null) {
+      return null;
+    } else {
+      if (!val.contains('@')) {
+        return context.tr('emailValidatorMessage');
+      }
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +70,9 @@ class CreataAccountField extends StatelessWidget {
             ],
           ),
           child: TextFormField(
+            controller: controller,
+            validator: (val) =>
+                isRequired ? requiredVal(val, context) : emailVal(val, context),
             cursorColor: AppColors.primary,
             style: AppTextStyle.rubikRegular16.copyWith(
               color: AppColors.primary,

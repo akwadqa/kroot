@@ -17,4 +17,8 @@ class AuthUiController extends _$AuthUiController {
   void checkPhoneFilled(bool isFilled) {
     state = state.copyWith(isPhoneFilled: isFilled);
   }
+
+  void makeResendButtonVisibleOrNo(bool isVisible) {
+    state = state.copyWith(isResendVisible: isVisible, isTimerZero: true);
+  }
 }

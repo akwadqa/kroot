@@ -13,7 +13,7 @@ abstract class VerifyOtpResponse with _$VerifyOtpResponse {
     String? email,
     String? mobileNo,
     String? token,
-    ValidationData? validation,
+    @JsonKey(name: 'validation') ValidationData? validation,
   }) = _VerifyOtpResponse;
 
   factory VerifyOtpResponse.fromJson(Map<String, dynamic> json) =>
@@ -23,10 +23,10 @@ abstract class VerifyOtpResponse with _$VerifyOtpResponse {
 @freezed
 abstract class ValidationData with _$ValidationData {
   const factory ValidationData({
-    String? mobileNumber,
-    bool? userExist,
-    bool? userEnabled,
-    bool? otpValid,
+    @JsonKey(name: 'mobile_number') String? mobileNumber,
+    @JsonKey(name: 'user_exist') bool? userExist,
+    @JsonKey(name: 'user_enabled') bool? userEnabled,
+    @JsonKey(name: 'OTP_valid') bool? otpValid,
   }) = _ValidationData;
 
   factory ValidationData.fromJson(Map<String, dynamic> json) =>

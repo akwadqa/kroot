@@ -8,6 +8,7 @@ abstract class EndPoints {
 
   static String sendOtp = '$_baseUrl/kroot.api.auth.send_otp';
   static String verifyOtp = '$_baseUrl/kroot.api.auth.verify_otp';
+  static String createAccount = '$_baseUrl/kroot.api.auth.register';
 
   // 🟩 CHECK
   static const String getGuests = '.get_invitees';

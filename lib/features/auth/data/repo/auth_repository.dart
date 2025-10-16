@@ -1,8 +1,10 @@
 // 📄 auth_repository.dart
 
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wedding_app/features/auth/data/data_source/auth_remote_data_source.dart';
+import 'package:wedding_app/features/auth/data/models/create_account/create_account_response.dart';
 import 'package:wedding_app/features/auth/data/models/login_params.dart';
 import 'package:wedding_app/features/auth/data/models/login_response_model.dart';
 import 'package:wedding_app/features/auth/data/models/send_otp/send_otp_response.dart';
@@ -29,18 +31,63 @@ class AuthRepository {
     return CheckNet<ApiResponse<SendOtpResponse>>().checkNetResponse(
       tryRight: () async {
         final result = await _remoteDataSource.sendOtp(number: number);
+        if (result.status != 200 && result.status != 404) {
+          throw Exception(result.message);
+        }
         return result;
       },
     );
   }
 
-  Future<ApiResponse<VerifyOtpResponse>> verifyOtp({required String number, required String otp}) async {
-    return CheckNet<ApiResponse<VerifyOtpResponse>>().checkNetResponse(
+  Future<ApiResponse<CreateAccountResponse>> createAccount({
+    required String firstName,
+    required String lastName,
+    required String mobile,
+    String? email,
+  }) async {
+    return CheckNet<ApiResponse<CreateAccountResponse>>().checkNetResponse(
       tryRight: () async {
-        final result = await _remoteDataSource.verifyOtp(number: number,otp: otp);
+        final result = await _remoteDataSource.creataAccount(
+          firstName: firstName,
+          lastName: lastName,
+          mobile: mobile,
+          email: email,
+        );
         return result;
       },
     );
+  }
+
+  Future<ApiResponse<VerifyOtpResponse>> verifyOtp({
+    required String number,
+    required String otp,
+  }) async {
+    try {
+      final result = await _remoteDataSource.verifyOtp(
+        number: number,
+        otp: otp,
+      );
+      if (result.status != 200 || result.hasFailed) {
+        throw Exception(result.message);
+      }
+      return result;
+    } on DioException catch (e) {
+      throw DioExceptionHandler.handle(e);
+    } catch (e) {
+      throw Exception(e);
+    }
+    // return CheckNet<ApiResponse<VerifyOtpResponse>>().checkNetResponse(
+    //   tryRight: () async {
+    //     final result = await _remoteDataSource.verifyOtp(
+    //       number: number,
+    //       otp: otp,
+    //     );
+    //     if (result.status != 200 || result.hasFailed) {
+    //       throw Exception(result.message);
+    //     }
+    //     return result;
+    //   },
+    // );
   }
 
   // Future<String> _handleAuthResponse(Map<String, dynamic> responseData) async {

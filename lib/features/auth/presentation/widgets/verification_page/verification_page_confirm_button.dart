@@ -9,15 +9,14 @@ import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 
 class VerificationPageConfirmButton extends StatelessWidget {
-  const VerificationPageConfirmButton({super.key});
+  const VerificationPageConfirmButton({super.key, required this.onTap});
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return CustomButtonWidget(
       text: '',
-      onTap: () {
-        context.push(Routes.creataAccount);
-      },
+      onTap: onTap,
       isFiled: true,
       content: Text(
         context.tr('confirm'),

@@ -16,6 +16,7 @@ import 'package:wedding_app/src/extenssions/widget_extensions.dart';
 import 'package:wedding_app/src/routing/routes.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
+import 'package:wedding_app/src/utils/app_alert.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -39,33 +40,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ref.listen(authControllerProvider, (prev, next) {
       if (next is AsyncError) {
         context.pop();
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(next.error.toString())));
+        if (!(next.value?.sendOtpResponse?.validation?.user_exist ?? true)) {
+          context.push(Routes.creataAccount , extra: _controller.text );
+        } else {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(next.error.toString())));
+        }
       }
 
       if (next is AsyncLoading) {
-        showGeneralDialog(
-          context: context,
-          pageBuilder: (ctx, animation, secondaryAnimation) {
-            // dialogContext = ctx;
-            return PopScope(
-              canPop: false,
-              child: const Center(
-                child: CircularProgressIndicator(color: AppColors.primary),
-              ),
-            );
-          },
-        );
+        AppAlert.showLoadingDialog(context);
       }
 
       if (next is AsyncData) {
         context.pop();
 
         if (next.value?.sendOtpResponse?.validation?.user_exist ?? false) {
+          ref
+              .read(authUiControllerProvider.notifier)
+              .makeResendButtonVisibleOrNo(false);
           context.push(Routes.verification);
         } else {
-          context.push(Routes.creataAccount);
+          context.push(Routes.creataAccount , extra: _controller.text );
         }
         // ref.read(authUiControllerProvider.notifier).checkPhoneFilled(false);
       }
@@ -118,8 +115,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         if (_formKey.currentState?.validate() ?? false) {
                           ref
                               .read(authControllerProvider.notifier)
-                              // .sendOtp(_controller.text);
-                              .sendOtp('999888777666');
+                              .sendOtp(_controller.text);
+                          // .sendOtp('999888777666');
                         }
                       }
                     : null,

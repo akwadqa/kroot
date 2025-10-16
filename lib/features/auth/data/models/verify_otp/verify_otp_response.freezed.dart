@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$VerifyOtpResponse {
 
- String? get userId; String? get firstName; String? get lastName; String? get email; String? get mobileNo; String? get token; ValidationData? get validation;
+ String? get userId; String? get firstName; String? get lastName; String? get email; String? get mobileNo; String? get token;@JsonKey(name: 'validation') ValidationData? get validation;
 /// Create a copy of VerifyOtpResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $VerifyOtpResponseCopyWith<$Res>  {
   factory $VerifyOtpResponseCopyWith(VerifyOtpResponse value, $Res Function(VerifyOtpResponse) _then) = _$VerifyOtpResponseCopyWithImpl;
 @useResult
 $Res call({
- String? userId, String? firstName, String? lastName, String? email, String? mobileNo, String? token, ValidationData? validation
+ String? userId, String? firstName, String? lastName, String? email, String? mobileNo, String? token,@JsonKey(name: 'validation') ValidationData? validation
 });
 
 
@@ -171,7 +171,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? userId,  String? firstName,  String? lastName,  String? email,  String? mobileNo,  String? token,  ValidationData? validation)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? userId,  String? firstName,  String? lastName,  String? email,  String? mobileNo,  String? token, @JsonKey(name: 'validation')  ValidationData? validation)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _VerifyOtpResponse() when $default != null:
 return $default(_that.userId,_that.firstName,_that.lastName,_that.email,_that.mobileNo,_that.token,_that.validation);case _:
@@ -192,7 +192,7 @@ return $default(_that.userId,_that.firstName,_that.lastName,_that.email,_that.mo
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? userId,  String? firstName,  String? lastName,  String? email,  String? mobileNo,  String? token,  ValidationData? validation)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? userId,  String? firstName,  String? lastName,  String? email,  String? mobileNo,  String? token, @JsonKey(name: 'validation')  ValidationData? validation)  $default,) {final _that = this;
 switch (_that) {
 case _VerifyOtpResponse():
 return $default(_that.userId,_that.firstName,_that.lastName,_that.email,_that.mobileNo,_that.token,_that.validation);case _:
@@ -212,7 +212,7 @@ return $default(_that.userId,_that.firstName,_that.lastName,_that.email,_that.mo
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? userId,  String? firstName,  String? lastName,  String? email,  String? mobileNo,  String? token,  ValidationData? validation)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? userId,  String? firstName,  String? lastName,  String? email,  String? mobileNo,  String? token, @JsonKey(name: 'validation')  ValidationData? validation)?  $default,) {final _that = this;
 switch (_that) {
 case _VerifyOtpResponse() when $default != null:
 return $default(_that.userId,_that.firstName,_that.lastName,_that.email,_that.mobileNo,_that.token,_that.validation);case _:
@@ -227,7 +227,7 @@ return $default(_that.userId,_that.firstName,_that.lastName,_that.email,_that.mo
 @JsonSerializable()
 
 class _VerifyOtpResponse implements VerifyOtpResponse {
-  const _VerifyOtpResponse({this.userId, this.firstName, this.lastName, this.email, this.mobileNo, this.token, this.validation});
+  const _VerifyOtpResponse({this.userId, this.firstName, this.lastName, this.email, this.mobileNo, this.token, @JsonKey(name: 'validation') this.validation});
   factory _VerifyOtpResponse.fromJson(Map<String, dynamic> json) => _$VerifyOtpResponseFromJson(json);
 
 @override final  String? userId;
@@ -236,7 +236,7 @@ class _VerifyOtpResponse implements VerifyOtpResponse {
 @override final  String? email;
 @override final  String? mobileNo;
 @override final  String? token;
-@override final  ValidationData? validation;
+@override@JsonKey(name: 'validation') final  ValidationData? validation;
 
 /// Create a copy of VerifyOtpResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -271,7 +271,7 @@ abstract mixin class _$VerifyOtpResponseCopyWith<$Res> implements $VerifyOtpResp
   factory _$VerifyOtpResponseCopyWith(_VerifyOtpResponse value, $Res Function(_VerifyOtpResponse) _then) = __$VerifyOtpResponseCopyWithImpl;
 @override @useResult
 $Res call({
- String? userId, String? firstName, String? lastName, String? email, String? mobileNo, String? token, ValidationData? validation
+ String? userId, String? firstName, String? lastName, String? email, String? mobileNo, String? token,@JsonKey(name: 'validation') ValidationData? validation
 });
 
 
@@ -320,7 +320,7 @@ $ValidationDataCopyWith<$Res>? get validation {
 /// @nodoc
 mixin _$ValidationData {
 
- String? get mobileNumber; bool? get userExist; bool? get userEnabled; bool? get otpValid;
+@JsonKey(name: 'mobile_number') String? get mobileNumber;@JsonKey(name: 'user_exist') bool? get userExist;@JsonKey(name: 'user_enabled') bool? get userEnabled;@JsonKey(name: 'OTP_valid') bool? get otpValid;
 /// Create a copy of ValidationData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -353,7 +353,7 @@ abstract mixin class $ValidationDataCopyWith<$Res>  {
   factory $ValidationDataCopyWith(ValidationData value, $Res Function(ValidationData) _then) = _$ValidationDataCopyWithImpl;
 @useResult
 $Res call({
- String? mobileNumber, bool? userExist, bool? userEnabled, bool? otpValid
+@JsonKey(name: 'mobile_number') String? mobileNumber,@JsonKey(name: 'user_exist') bool? userExist,@JsonKey(name: 'user_enabled') bool? userEnabled,@JsonKey(name: 'OTP_valid') bool? otpValid
 });
 
 
@@ -461,7 +461,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? mobileNumber,  bool? userExist,  bool? userEnabled,  bool? otpValid)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'mobile_number')  String? mobileNumber, @JsonKey(name: 'user_exist')  bool? userExist, @JsonKey(name: 'user_enabled')  bool? userEnabled, @JsonKey(name: 'OTP_valid')  bool? otpValid)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ValidationData() when $default != null:
 return $default(_that.mobileNumber,_that.userExist,_that.userEnabled,_that.otpValid);case _:
@@ -482,7 +482,7 @@ return $default(_that.mobileNumber,_that.userExist,_that.userEnabled,_that.otpVa
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? mobileNumber,  bool? userExist,  bool? userEnabled,  bool? otpValid)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'mobile_number')  String? mobileNumber, @JsonKey(name: 'user_exist')  bool? userExist, @JsonKey(name: 'user_enabled')  bool? userEnabled, @JsonKey(name: 'OTP_valid')  bool? otpValid)  $default,) {final _that = this;
 switch (_that) {
 case _ValidationData():
 return $default(_that.mobileNumber,_that.userExist,_that.userEnabled,_that.otpValid);case _:
@@ -502,7 +502,7 @@ return $default(_that.mobileNumber,_that.userExist,_that.userEnabled,_that.otpVa
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? mobileNumber,  bool? userExist,  bool? userEnabled,  bool? otpValid)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'mobile_number')  String? mobileNumber, @JsonKey(name: 'user_exist')  bool? userExist, @JsonKey(name: 'user_enabled')  bool? userEnabled, @JsonKey(name: 'OTP_valid')  bool? otpValid)?  $default,) {final _that = this;
 switch (_that) {
 case _ValidationData() when $default != null:
 return $default(_that.mobileNumber,_that.userExist,_that.userEnabled,_that.otpValid);case _:
@@ -517,13 +517,13 @@ return $default(_that.mobileNumber,_that.userExist,_that.userEnabled,_that.otpVa
 @JsonSerializable()
 
 class _ValidationData implements ValidationData {
-  const _ValidationData({this.mobileNumber, this.userExist, this.userEnabled, this.otpValid});
+  const _ValidationData({@JsonKey(name: 'mobile_number') this.mobileNumber, @JsonKey(name: 'user_exist') this.userExist, @JsonKey(name: 'user_enabled') this.userEnabled, @JsonKey(name: 'OTP_valid') this.otpValid});
   factory _ValidationData.fromJson(Map<String, dynamic> json) => _$ValidationDataFromJson(json);
 
-@override final  String? mobileNumber;
-@override final  bool? userExist;
-@override final  bool? userEnabled;
-@override final  bool? otpValid;
+@override@JsonKey(name: 'mobile_number') final  String? mobileNumber;
+@override@JsonKey(name: 'user_exist') final  bool? userExist;
+@override@JsonKey(name: 'user_enabled') final  bool? userEnabled;
+@override@JsonKey(name: 'OTP_valid') final  bool? otpValid;
 
 /// Create a copy of ValidationData
 /// with the given fields replaced by the non-null parameter values.
@@ -558,7 +558,7 @@ abstract mixin class _$ValidationDataCopyWith<$Res> implements $ValidationDataCo
   factory _$ValidationDataCopyWith(_ValidationData value, $Res Function(_ValidationData) _then) = __$ValidationDataCopyWithImpl;
 @override @useResult
 $Res call({
- String? mobileNumber, bool? userExist, bool? userEnabled, bool? otpValid
+@JsonKey(name: 'mobile_number') String? mobileNumber,@JsonKey(name: 'user_exist') bool? userExist,@JsonKey(name: 'user_enabled') bool? userEnabled,@JsonKey(name: 'OTP_valid') bool? otpValid
 });
 
 

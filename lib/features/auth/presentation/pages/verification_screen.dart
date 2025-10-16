@@ -6,24 +6,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_controller.dart';
+import 'package:wedding_app/features/auth/presentation/controller/auth_ui_controller.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/verification_page/verification_page_confirm_button.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/verification_page/verification_page_expired_timer.dart';
+import 'package:wedding_app/features/auth/presentation/widgets/verification_page/verification_page_input_button.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/verification_page/verification_page_pin.dart';
 import 'package:wedding_app/gen/assets.gen.dart';
 import 'package:wedding_app/src/extenssions/widget_extensions.dart';
+import 'package:wedding_app/src/routing/routes.dart';
 import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 import 'package:pinput/pinput.dart';
+import 'package:wedding_app/src/utils/app_alert.dart';
 
-class VerificationScreen extends StatefulWidget {
+class VerificationScreen extends ConsumerStatefulWidget {
   const VerificationScreen({super.key});
 
   @override
-  State<VerificationScreen> createState() => _VerificationScreenState();
+  ConsumerState<VerificationScreen> createState() => _VerificationScreenState();
 }
 
-class _VerificationScreenState extends State<VerificationScreen> {
+class _VerificationScreenState extends ConsumerState<VerificationScreen> {
   late TextEditingController controller;
   @override
   void initState() {
@@ -41,6 +45,38 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(authControllerProvider, (prev, next) {
+      if (next is AsyncLoading) {
+        AppAlert.showLoadingDialog(context);
+      }
+
+      if (next is AsyncError) {
+        context.pop();
+        Future.delayed(const Duration(milliseconds: 100), () {
+          print('errorrr');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.all(16),
+              content: Text(next.asError!.error.toString()),
+            ),
+          );
+        });
+      }
+      if (next is AsyncData) {
+        context.pop();
+        if (ref.read(authUiControllerProvider).isResendVisible) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('here send')));
+        } else {
+          context.push(Routes.home);
+        }
+      }
+    });
+
+    // ref.listen(authControllerProvider,(pre))
+
     return Scaffold(
       body: Form(
         key: _key,
@@ -89,11 +125,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     builder: (context, ref, _) {
                       final number = ref.read(
                         authControllerProvider.select((val) {
-                          return val
-                              .asData
-                              ?.value
-                              ?.sendOtpResponse
-                              ?.mobile_number;
+                          return val.value?.sendOtpResponse?.mobile_number;
                         }),
                       );
                       return Text(
@@ -115,11 +147,46 @@ class _VerificationScreenState extends State<VerificationScreen> {
             20.verticalSpace,
 
             //? Confirm button:
-            VerificationPageConfirmButton(),
+            VerificationPageConfirmButton(
+              onTap: !ref.read(authUiControllerProvider).isResendVisible
+                  ? () {
+                      if (_key.currentState!.validate()) {
+                        ref
+                            .read(authControllerProvider.notifier)
+                            .verifyOtp(controller.text);
+                      }
+                    }
+                  : null,
+            ),
             15.verticalSpace,
 
             //? Expiered :
             VerificationPageExpiredTimer(),
+            15.verticalSpace,
+
+            //? Resend code :
+            Visibility(
+              visible: ref.watch(authUiControllerProvider).isResendVisible,
+              child: TextButton(
+                onPressed: () {
+                  final number = ref
+                      .read(authControllerProvider)
+                      .value
+                      ?.sendOtpResponse
+                      ?.mobile_number;
+
+                  ref
+                      .read(authControllerProvider.notifier)
+                      .sendOtp(number ?? '');
+                },
+                child: Text(
+                  'Resend code',
+                  style: AppTextStyle.rubikRegular14.copyWith(
+                    color: AppColors.nevy,
+                  ),
+                ),
+              ),
+            ),
             Spacer(),
 
             SizedBox(
@@ -136,6 +203,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   mainAxisSpacing: 7.h,
                 ),
                 itemBuilder: (context, index) {
+                  //? Delete button :
                   if (index == 9) {
                     return VerificationPageInputButton.delet(() {
                       if (controller.text.isNotEmpty) {
@@ -146,91 +214,33 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       }
                     });
                   }
+
+                  //? Confirm button :
                   if (index == 11) {
-                    return VerificationPageInputButton.done(() {});
+                    return VerificationPageInputButton.done(
+                      !ref.read(authUiControllerProvider).isResendVisible
+                          ? () {
+                              if (_key.currentState!.validate()) {
+                                ref
+                                    .read(authControllerProvider.notifier)
+                                    .verifyOtp(controller.text);
+                              }
+                            }
+                          : null,
+                    );
                   }
                   return VerificationPageInputButton.label(keys[index], () {
-                    if (controller.text.length < 4) {
+                    if (controller.text.length < 6) {
                       controller.text += keys[index];
                     }
                   });
                 },
               ),
             ),
+            8.verticalSpace,
           ],
         ),
       ),
     );
   }
 }
-
-class VerificationPageInputButton extends StatelessWidget {
-  const VerificationPageInputButton({
-    super.key,
-    required this.label,
-    required this.child,
-    this.isSubmit = false,
-    this.isDelete = false,
-    required this.onTap,
-  });
-
-  factory VerificationPageInputButton.label(
-    String label,
-    void Function() onTap,
-  ) {
-    return VerificationPageInputButton(
-      label: label,
-      onTap: onTap,
-      child: Text(
-        label,
-        style: AppTextStyle.rubikRegular25.copyWith(color: AppColors.primary),
-      ),
-    );
-  }
-
-  factory VerificationPageInputButton.delet(void Function() onTap) {
-    return VerificationPageInputButton(
-      label: '',
-      isDelete: true,
-      onTap: onTap,
-      child: Assets.icons.deleteIc.svg(),
-    );
-  }
-
-  factory VerificationPageInputButton.done(void Function() onTap) {
-    return VerificationPageInputButton(
-      label: '',
-      isSubmit: true,
-      onTap: onTap,
-      child: Assets.icons.correctIc.svg(),
-    );
-  }
-
-  final String label;
-  final Widget child;
-  final bool isDelete, isSubmit;
-  final void Function() onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10.r),
-      child: Material(
-        color: isSubmit ? AppColors.primary : null,
-        child: InkWell(
-          onTap: onTap,
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.grayBorder),
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            alignment: Alignment.center,
-            child: child,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-final keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', ''];

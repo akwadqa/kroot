@@ -10,7 +10,11 @@ class GoRouterApp {
     routes: [
       //************ Auth *********** */
       //? Login :
-      GoRoute(path: Routes.login, builder: (context, state) => VerificationScreen()),
+      GoRoute(
+        path: Routes.login,
+        builder: (context, state) => LoginScreen(),
+        // builder: (context, state) => CreateAccountScreen(),
+      ),
 
       //? Verification :
       GoRoute(
@@ -21,7 +25,7 @@ class GoRouterApp {
       //? Verification :
       GoRoute(
         path: Routes.creataAccount,
-        builder: (context, state) => CreateAccountScreen(),
+        builder: (context, state) => CreateAccountScreen(number: state.extra as String,),
       ),
 
       //****************** Home  ***********/

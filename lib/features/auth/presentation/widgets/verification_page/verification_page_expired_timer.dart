@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_controller.dart';
+import 'package:wedding_app/features/auth/presentation/controller/auth_ui_controller.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 
@@ -38,6 +39,9 @@ class _VerificationPageExpiredTimerState
         });
       } else {
         timer.cancel();
+        ref
+            .read(authUiControllerProvider.notifier)
+            .makeResendButtonVisibleOrNo(true);
       }
     });
   }
@@ -56,6 +60,23 @@ class _VerificationPageExpiredTimerState
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(authControllerProvider, (pre, next) {
+      if (next is AsyncData) {
+        _timer?.cancel();
+        ref
+            .read(authUiControllerProvider.notifier)
+            .makeResendButtonVisibleOrNo(false);
+        startTimer();
+        _remainingSeconds = ref.read(
+          authControllerProvider.select((val) {
+            return val.asData?.value?.sendOtpResponse?.allow_login_after ?? 0;
+          }),
+        );
+      }
+    });
+    // ref
+    //     .read(authUiControllerProvider.notifier)
+    //     .makeResendButtonVisibleOrNo(false);
     return Text.rich(
       style: AppTextStyle.rubikRegular14.copyWith(color: AppColors.primary),
       TextSpan(

@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wedding_app/features/auth/application/auth_service.dart';
@@ -86,7 +87,7 @@ class AuthController extends _$AuthController {
           .read(authRepositoryProvider)
           .sendOtp(number: number);
 
-      if (result.hasFailed) {
+      if (result.status != 200 && result.status != 404) {
         throw Exception(result.message);
       }
       state = AsyncData(
@@ -98,12 +99,13 @@ class AuthController extends _$AuthController {
     }
   }
 
-  Future<void> verifyOtp(String number,String otp) async {
+  Future<void> verifyOtp(String otp) async {
     try {
+      final number = state.value?.sendOtpResponse?.mobile_number;
       state = const AsyncLoading();
       final result = await ref
           .read(authRepositoryProvider)
-          .verifyOtp(number: number,otp: otp);
+          .verifyOtp(number: number ?? '', otp: otp);
 
       if (result.hasFailed) {
         throw Exception(result.message);
@@ -111,6 +113,36 @@ class AuthController extends _$AuthController {
       state = AsyncData(
         state.value?.copyWith(verifyOtpResponse: result.data) ??
             AuthControllerState(verifyOtpResponse: result.data),
+      );
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
+  }
+
+  Future<void> creataAccount({
+    required String firstName,
+    required String lastName,
+    required String number,
+    String? email,
+  }) async {
+    try {
+      // final number = state.value?.sendOtpResponse?.mobile_number;
+      state = const AsyncLoading();
+      final result = await ref
+          .read(authRepositoryProvider)
+          .createAccount(
+            firstName: firstName,
+            lastName: lastName,
+            mobile: number ?? '',
+            email: email,
+          );
+
+      if (result.hasFailed) {
+        throw Exception(result.message);
+      }
+      state = AsyncData(
+        state.value?.copyWith(createAccountResponse: result.data) ??
+            AuthControllerState(createAccountResponse: result.data),
       );
     } catch (e, st) {
       state = AsyncError(e, st);

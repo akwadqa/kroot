@@ -32,16 +32,16 @@ Map<String, dynamic> _$VerifyOtpResponseToJson(_VerifyOtpResponse instance) =>
 
 _ValidationData _$ValidationDataFromJson(Map<String, dynamic> json) =>
     _ValidationData(
-      mobileNumber: json['mobileNumber'] as String?,
-      userExist: json['userExist'] as bool?,
-      userEnabled: json['userEnabled'] as bool?,
-      otpValid: json['otpValid'] as bool?,
+      mobileNumber: json['mobile_number'] as String?,
+      userExist: json['user_exist'] as bool?,
+      userEnabled: json['user_enabled'] as bool?,
+      otpValid: json['OTP_valid'] as bool?,
     );
 
 Map<String, dynamic> _$ValidationDataToJson(_ValidationData instance) =>
     <String, dynamic>{
-      'mobileNumber': instance.mobileNumber,
-      'userExist': instance.userExist,
-      'userEnabled': instance.userEnabled,
-      'otpValid': instance.otpValid,
+      'mobile_number': instance.mobileNumber,
+      'user_exist': instance.userExist,
+      'user_enabled': instance.userEnabled,
+      'OTP_valid': instance.otpValid,
     };

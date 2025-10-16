@@ -10,7 +10,8 @@ import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 
 class CreateAccountPageConfirmButton extends StatelessWidget {
-  const CreateAccountPageConfirmButton({super.key});
+  const CreateAccountPageConfirmButton({super.key, required this.onTap});
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +21,7 @@ class CreateAccountPageConfirmButton extends StatelessWidget {
         return CustomButtonWidget(
           text: '',
           onTap: isAgree
-              ? () {
-                  context.push(Routes.home);
-                }
+              ?onTap
               : null,
           isFiled: true,
           content: Text(

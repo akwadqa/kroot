@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:wedding_app/features/auth/data/models/create_account/create_account_response.dart';
 import 'package:wedding_app/features/auth/data/models/login_params.dart';
 import 'package:wedding_app/features/auth/data/models/login_response_model.dart';
 import 'package:wedding_app/features/auth/data/models/send_otp/send_otp_response.dart';
@@ -13,7 +14,6 @@ class AuthRemoteDataSource {
 
   AuthRemoteDataSource(this._networkService);
 
-
   Future<ApiResponse<SendOtpResponse>> sendOtp({required String number}) async {
     try {
       final data = FormData.fromMap({'mobile_no': number});
@@ -21,15 +21,46 @@ class AuthRemoteDataSource {
         EndPoints.sendOtp,
         data: data,
       );
-      if (response.statusCode == 404) {
-        return ApiResponse.error(error: 'User not found');
-      }
       return ApiResponse.fromJson(
         response.data,
         (json) => SendOtpResponse.fromJson(json as Map<String, dynamic>),
       );
+    } on DioException catch (e) {
+      if (e.response?.data['status_code'] == 404) {
+        return ApiResponse.success(
+          data: SendOtpResponse.fromJson(e.response?.data['data']),
+        );
+      } else
+        rethrow;
     } catch (e) {
       return ApiResponse.error(error: e);
+    }
+  }
+
+  Future<ApiResponse<CreateAccountResponse>> creataAccount({
+    required String firstName,
+    required String lastName,
+    required String mobile,
+    String? email,
+  }) async {
+    try {
+      final data = FormData.fromMap({
+        'first_name': firstName,
+        'last_name': lastName,
+        'mobile_no': mobile,
+        'email': email,
+      });
+      final response = await _networkService.post(
+        EndPoints.createAccount,
+        data: data,
+      );
+      return ApiResponse.fromJson(
+        response.data,
+        (json) =>
+            CreateAccountResponse.fromJson(json as Map<String, dynamic>? ?? {}),
+      );
+    } catch (e) {
+      return ApiResponse.error(message: e.toString());
     }
   }
 
@@ -44,8 +75,9 @@ class AuthRemoteDataSource {
         data: data,
       );
       return ApiResponse.fromJson(
-        response.data as Map<String, dynamic>,
-        (json) => VerifyOtpResponse.fromJson(json as Map<String, dynamic>),
+        response.data,
+        (json) =>
+            VerifyOtpResponse.fromJson(json as Map<String, dynamic>? ?? {}),
       );
     } catch (e) {
       return ApiResponse.error(message: e.toString());
