@@ -1,0 +1,33 @@
+import 'package:go_router/go_router.dart';
+import 'package:wedding_app/features/auth/presentation/pages/create_account_screen.dart';
+import 'package:wedding_app/features/auth/presentation/pages/login_screen.dart';
+import 'package:wedding_app/features/auth/presentation/pages/verification_screen.dart';
+import 'package:wedding_app/features/home/presentation/screens/home_screen.dart';
+import 'package:wedding_app/src/routing/routes.dart';
+
+class GoRouterApp {
+  final routes = GoRouter(
+    routes: [
+      //************ Auth *********** */
+      //? Login :
+      GoRoute(path: Routes.login, builder: (context, state) => VerificationScreen()),
+
+      //? Verification :
+      GoRoute(
+        path: Routes.verification,
+        builder: (context, state) => VerificationScreen(),
+      ),
+
+      //? Verification :
+      GoRoute(
+        path: Routes.creataAccount,
+        builder: (context, state) => CreateAccountScreen(),
+      ),
+
+      //****************** Home  ***********/
+
+      //? Home :
+      GoRoute(path: Routes.home, builder: (context, state) => HomeScreen()),
+    ],
+  );
+}

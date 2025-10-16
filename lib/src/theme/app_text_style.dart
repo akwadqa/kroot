@@ -8,6 +8,10 @@ class AppTextStyle {
     fontWeight: FontWeight.w600,
     fontSize: 18.sp,
   );
+  static TextStyle rubikSemiBold16 = GoogleFonts.rubik(
+    fontWeight: FontWeight.w600,
+    fontSize: 16.sp,
+  );
 
   //? Rubik medium :
   static TextStyle rubikMedium20 = GoogleFonts.rubik(
@@ -25,6 +29,21 @@ class AppTextStyle {
   );
 
   //? Rubik regular :
+  static TextStyle rubikRegular25 = GoogleFonts.rubik(
+    fontWeight: FontWeight.w400,
+    fontSize: 25.sp,
+  );
+
+  static TextStyle rubikRegular20 = GoogleFonts.rubik(
+    fontWeight: FontWeight.w400,
+    fontSize: 20.sp,
+  );
+
+  static TextStyle rubikRegular18 = GoogleFonts.rubik(
+    fontWeight: FontWeight.w400,
+    fontSize: 18.sp,
+  );
+
   static TextStyle rubikRegular16 = GoogleFonts.rubik(
     fontWeight: FontWeight.w400,
     fontSize: 16.sp,
@@ -33,6 +52,16 @@ class AppTextStyle {
   static TextStyle rubikRegular14 = GoogleFonts.rubik(
     fontWeight: FontWeight.w400,
     fontSize: 14.sp,
+  );
+
+  static TextStyle rubikRegular12 = GoogleFonts.rubik(
+    fontWeight: FontWeight.w400,
+    fontSize: 12.sp,
+  );
+  //************************* Poppins ////////////// */
+  static TextStyle poppinsMedium16 = GoogleFonts.poppins(
+    fontWeight: FontWeight.w500,
+    fontSize: 16.sp,
   );
 
   //********************** INTER ////////////// */

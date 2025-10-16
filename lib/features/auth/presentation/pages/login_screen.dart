@@ -1,7 +1,10 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wedding_app/features/auth/presentation/controller/auth_controller.dart';
+import 'package:wedding_app/features/auth/presentation/controller/auth_ui_controller.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/login_page/login_page_email_auth.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/login_page/login_page_google_auth.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/login_page/login_page_number_field.dart';
@@ -10,29 +13,71 @@ import 'package:wedding_app/features/auth/presentation/widgets/login_page/login_
 import 'package:wedding_app/src/extenssions/int_extenssion.dart';
 import 'package:wedding_app/gen/assets.gen.dart';
 import 'package:wedding_app/src/extenssions/widget_extensions.dart';
+import 'package:wedding_app/src/routing/routes.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 
-@RoutePage()
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+  late TextEditingController _controller = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(authControllerProvider, (prev, next) {
+      if (next is AsyncError) {
+        context.pop();
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(next.error.toString())));
+      }
+
+      if (next is AsyncLoading) {
+        showGeneralDialog(
+          context: context,
+          pageBuilder: (ctx, animation, secondaryAnimation) {
+            // dialogContext = ctx;
+            return PopScope(
+              canPop: false,
+              child: const Center(
+                child: CircularProgressIndicator(color: AppColors.primary),
+              ),
+            );
+          },
+        );
+      }
+
+      if (next is AsyncData) {
+        context.pop();
+
+        if (next.value?.sendOtpResponse?.validation?.user_exist ?? false) {
+          context.push(Routes.verification);
+        } else {
+          context.push(Routes.creataAccount);
+        }
+        // ref.read(authUiControllerProvider.notifier).checkPhoneFilled(false);
+      }
+    });
+
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: Form(
-          key: _formKey,
+          // key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -63,11 +108,23 @@ class _LoginScreenState extends State<LoginScreen> {
               20.verticalSpace,
 
               //? Number field :
-              LoginPageNumberField(),
-              20.verticalSpace,
+              LoginPageNumberField(_controller, _formKey),
+              40.verticalSpace,
 
               //? Login button :
-              LoginPageSigninButton(),
+              LoginPageSigninButton(
+                onTap: ref.watch(authUiControllerProvider).isPhoneFilled
+                    ? () {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          ref
+                              .read(authControllerProvider.notifier)
+                              // .sendOtp(_controller.text);
+                              .sendOtp('999888777666');
+                        }
+                      }
+                    : null,
+              ),
+
               15.verticalSpace,
 
               //? Signup section :

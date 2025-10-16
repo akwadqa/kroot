@@ -33,6 +33,10 @@ class $AssetsFontsGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/agree_terms_correct_ic.svg
+  SvgGenImage get agreeTermsCorrectIc =>
+      const SvgGenImage('assets/icons/agree_terms_correct_ic.svg');
+
   /// File path: assets/icons/apple_ic.svg
   SvgGenImage get appleIc => const SvgGenImage('assets/icons/apple_ic.svg');
 
@@ -41,6 +45,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/category.svg
   SvgGenImage get category => const SvgGenImage('assets/icons/category.svg');
+
+  /// File path: assets/icons/correct_ic.svg
+  SvgGenImage get correctIc => const SvgGenImage('assets/icons/correct_ic.svg');
 
   /// File path: assets/icons/coupon.svg
   SvgGenImage get coupon => const SvgGenImage('assets/icons/coupon.svg');
@@ -53,6 +60,9 @@ class $AssetsIconsGen {
   SvgGenImage get creditCardIcn =>
       const SvgGenImage('assets/icons/credit_card_icn.svg');
 
+  /// File path: assets/icons/delete_ic.svg
+  SvgGenImage get deleteIc => const SvgGenImage('assets/icons/delete_ic.svg');
+
   /// File path: assets/icons/document_ic.svg
   SvgGenImage get documentIc =>
       const SvgGenImage('assets/icons/document_ic.svg');
@@ -60,11 +70,31 @@ class $AssetsIconsGen {
   /// File path: assets/icons/email_ic.svg
   SvgGenImage get emailIc => const SvgGenImage('assets/icons/email_ic.svg');
 
+  /// File path: assets/icons/enter_email_ic.svg
+  SvgGenImage get enterEmailIc =>
+      const SvgGenImage('assets/icons/enter_email_ic.svg');
+
+  /// File path: assets/icons/event_search_ic.svg
+  SvgGenImage get eventSearchIc =>
+      const SvgGenImage('assets/icons/event_search_ic.svg');
+
+  /// File path: assets/icons/first_name_person_ic.svg
+  SvgGenImage get firstNamePersonIc =>
+      const SvgGenImage('assets/icons/first_name_person_ic.svg');
+
   /// File path: assets/icons/google_ic.svg
   SvgGenImage get googleIc => const SvgGenImage('assets/icons/google_ic.svg');
 
   /// File path: assets/icons/home.svg
   SvgGenImage get home => const SvgGenImage('assets/icons/home.svg');
+
+  /// File path: assets/icons/last_name_person_ic.svg
+  SvgGenImage get lastNamePersonIc =>
+      const SvgGenImage('assets/icons/last_name_person_ic.svg');
+
+  /// File path: assets/icons/location_ic.svg
+  SvgGenImage get locationIc =>
+      const SvgGenImage('assets/icons/location_ic.svg');
 
   /// File path: assets/icons/mobile_ic.svg
   SvgGenImage get mobileIc => const SvgGenImage('assets/icons/mobile_ic.svg');
@@ -81,6 +111,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/settings.svg
   SvgGenImage get settings => const SvgGenImage('assets/icons/settings.svg');
 
+  /// File path: assets/icons/verification_arrow_back_ic.svg
+  SvgGenImage get verificationArrowBackIc =>
+      const SvgGenImage('assets/icons/verification_arrow_back_ic.svg');
+
   /// File path: assets/icons/verifiedCheck_ic.svg
   SvgGenImage get verifiedCheckIc =>
       const SvgGenImage('assets/icons/verifiedCheck_ic.svg');
@@ -91,21 +125,30 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
+    agreeTermsCorrectIc,
     appleIc,
     arrowIc,
     category,
+    correctIc,
     coupon,
     creditCardIc,
     creditCardIcn,
+    deleteIc,
     documentIc,
     emailIc,
+    enterEmailIc,
+    eventSearchIc,
+    firstNamePersonIc,
     googleIc,
     home,
+    lastNamePersonIc,
+    locationIc,
     mobileIc,
     phoneIc,
     profile,
     qr,
     settings,
+    verificationArrowBackIc,
     verifiedCheckIc,
     whatsappIc,
   ];
@@ -138,8 +181,16 @@ class $AssetsImagesGen {
   AssetGenImage get qatarCountry =>
       const AssetGenImage('assets/images/qatar_country.png');
 
+  /// File path: assets/images/rings_image.png
+  AssetGenImage get ringsImage =>
+      const AssetGenImage('assets/images/rings_image.png');
+
   /// File path: assets/images/splash.png
   AssetGenImage get splash => const AssetGenImage('assets/images/splash.png');
+
+  /// File path: assets/images/wedding_image.png
+  AssetGenImage get weddingImage =>
+      const AssetGenImage('assets/images/wedding_image.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
@@ -149,7 +200,9 @@ class $AssetsImagesGen {
     personalImage,
     qatarCircl,
     qatarCountry,
+    ringsImage,
     splash,
+    weddingImage,
   ];
 }
 
