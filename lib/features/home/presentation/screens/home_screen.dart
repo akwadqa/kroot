@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedding_app/src/shared_widgets/bottom_navigation_bar_view.dart';
 import 'package:wedding_app/features/auth/application/auth_service.dart';
 import 'package:wedding_app/features/home/presentation/widgets/home_page/home_page_app_bar.dart';
 import 'package:wedding_app/features/home/presentation/widgets/home_page/home_page_search_field.dart';
@@ -18,6 +19,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBarView(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: Column(

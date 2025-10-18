@@ -4,20 +4,17 @@ import 'package:wedding_app/features/auth/data/models/send_otp/send_otp_response
 import 'package:wedding_app/features/auth/data/models/verify_otp/verify_otp_response.dart';
 
 class AuthControllerState {
-  final SendOtpResponse? sendOtpResponse;
   final VerifyOtpResponse? verifyOtpResponse;
   final CreateAccountResponse? createAccountResponse;
 
-  AuthControllerState({ this.sendOtpResponse, this.verifyOtpResponse,this.createAccountResponse});
+  AuthControllerState({  this.verifyOtpResponse,this.createAccountResponse});
 
   AuthControllerState copyWith({
-    SendOtpResponse? sendOtpResponse,
     VerifyOtpResponse? verifyOtpResponse,
     CreateAccountResponse? createAccountResponse,
   }) {
     return AuthControllerState(
       createAccountResponse: createAccountResponse ?? this.createAccountResponse,
-      sendOtpResponse: sendOtpResponse ?? this.sendOtpResponse,
       verifyOtpResponse: verifyOtpResponse ?? this.verifyOtpResponse,
     );
   }

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_ui_controller.dart';
+import 'package:wedding_app/features/auth/presentation/controller/send_otp_controller.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/login_page/login_page_email_auth.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/login_page/login_page_google_auth.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/login_page/login_page_number_field.dart';
@@ -37,16 +38,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(authControllerProvider, (prev, next) {
+    ref.listen(sendOtpControllerProvider, (prev, next) {
       if (next is AsyncError) {
         context.pop();
-        if (!(next.value?.sendOtpResponse?.validation?.user_exist ?? true)) {
-          context.push(Routes.creataAccount , extra: _controller.text );
-        } else {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(next.error.toString())));
-        }
+        // if (!(next.value?.validation?.user_exist ?? true)) {
+        // context.push(Routes.creataAccount , extra: _controller.text );
+        // } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(next.error.toString())));
+        // }
       }
 
       if (next is AsyncLoading) {
@@ -55,14 +56,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
       if (next is AsyncData) {
         context.pop();
+        print('*********************');
+        print(next.value?.allow_login_after);
+        print('*********************');
 
-        if (next.value?.sendOtpResponse?.validation?.user_exist ?? false) {
+        if ((next.value?.allow_login_after != null)) {
           ref
               .read(authUiControllerProvider.notifier)
               .makeResendButtonVisibleOrNo(false);
           context.push(Routes.verification);
         } else {
-          context.push(Routes.creataAccount , extra: _controller.text );
+          context.push(Routes.creataAccount, extra: _controller.text);
         }
         // ref.read(authUiControllerProvider.notifier).checkPhoneFilled(false);
       }
@@ -114,7 +118,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ? () {
                         if (_formKey.currentState?.validate() ?? false) {
                           ref
-                              .read(authControllerProvider.notifier)
+                              .read(sendOtpControllerProvider.notifier)
                               .sendOtp(number: _controller.text);
                           // .sendOtp('999888777666');
                         }

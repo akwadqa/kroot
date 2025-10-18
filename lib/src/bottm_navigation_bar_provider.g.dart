@@ -1,57 +1,57 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'current_language.dart';
+part of 'bottm_navigation_bar_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-@ProviderFor(CurrentLanguage)
-const currentLanguageProvider = CurrentLanguageProvider._();
+@ProviderFor(BottomNavIndex)
+const bottomNavIndexProvider = BottomNavIndexProvider._();
 
-final class CurrentLanguageProvider
-    extends $NotifierProvider<CurrentLanguage, String> {
-  const CurrentLanguageProvider._()
+final class BottomNavIndexProvider
+    extends $NotifierProvider<BottomNavIndex, int> {
+  const BottomNavIndexProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'currentLanguageProvider',
-        isAutoDispose: false,
+        name: r'bottomNavIndexProvider',
+        isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$currentLanguageHash();
+  String debugGetCreateSourceHash() => _$bottomNavIndexHash();
 
   @$internal
   @override
-  CurrentLanguage create() => CurrentLanguage();
+  BottomNavIndex create() => BottomNavIndex();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(String value) {
+  Override overrideWithValue(int value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<String>(value),
+      providerOverride: $SyncValueProvider<int>(value),
     );
   }
 }
 
-String _$currentLanguageHash() => r'3e6a218c11d766793acdef4c2b4501805206a651';
+String _$bottomNavIndexHash() => r'59407c849966979151fadc67336236fc7508297f';
 
-abstract class _$CurrentLanguage extends $Notifier<String> {
-  String build();
+abstract class _$BottomNavIndex extends $Notifier<int> {
+  int build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<String, String>;
+    final ref = this.ref as $Ref<int, int>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
+              AnyNotifier<int, int>,
+              int,
               Object?,
               Object?
             >;

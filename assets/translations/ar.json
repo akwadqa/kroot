@@ -22,7 +22,7 @@
     "party_size_label": "عدد الأشخاص",
     "scan_code": "امسح الكود",
     "scan_again": "امسح الكود مرة أخرى",
-    "app_title": "زفة",
+    "appTitle": "كروت",
     "next": "التالي",
     "submit": "تأكيد",
     "get_started": "لنبدأ",
@@ -130,7 +130,11 @@
     "enterLastName": "ادخل اسمك الأخير",
     "agreeWith": " أوافق على",
     "terms&conditions": "الشروط والأحكام",
-    "findEventHere" : "ابحث عن حدث هنا",
-    "allEvents" : "كل الأحداث",
-    "resendCode" : "تم اعادة ارسال الرمز بنجاح"
+    "findEventHere": "ابحث عن حدث هنا",
+    "allEvents": "كل الأحداث",
+    "resendCode": "تم اعادة ارسال الرمز بنجاح",
+    "add": "إضافة",
+    "scan": "مسح",
+    "enterPhone" : "الرجاء ادخال رقم الهاتف",
+    "invalidNumber" : "رقم الهاتف غير صحيح"
 }

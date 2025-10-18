@@ -33,7 +33,7 @@ abstract class AppColors {
   static const Color darkGray = Color(0xFF727272);
   static const Color lightGray01 = Color(0xFFF1F1F1);
   static const Color lightGray02 = Color(0xFFD9D9D9);
-  static const Color gray02 = Color(0xFF888888);
+  static const Color black400 = Color(0xFF888888);
   static const Color black800 = Color(0xFF444444);
   static const Color stoneGray = Color(0xFF949494);
   static const Color offWhite = Color(0xFFF6F6F6);

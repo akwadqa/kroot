@@ -8,6 +8,7 @@ import 'package:wedding_app/features/auth/data/models/login_params.dart';
 import 'package:wedding_app/features/auth/data/models/send_otp/send_otp_response.dart';
 import 'package:wedding_app/features/auth/data/repo/auth_repository.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_controller_state.dart';
+import 'package:wedding_app/features/auth/presentation/controller/send_otp_controller.dart';
 import 'package:wedding_app/src/network/exception/dio_exceptions.dart';
 
 part 'auth_controller.g.dart';
@@ -80,28 +81,14 @@ class AuthController extends _$AuthController {
   //   });
   // }
 
-  Future<void> sendOtp({required String number , bool isFromCreate = false}) async {
-    try {
-     if(!isFromCreate) state = const AsyncLoading();
-      final result = await ref
-          .read(authRepositoryProvider)
-          .sendOtp(number: number);
-
-      if (result.status != 200 && result.status != 404) {
-        throw Exception(result.message);
-      }
-    if(!isFromCreate)   state = AsyncData(
-        state.value?.copyWith(sendOtpResponse: result.data) ??
-            AuthControllerState(sendOtpResponse: result.data),
-      );
-    } catch (e, st) {
-      state = AsyncError(e, st);
-    }
-  }
-
   Future<void> verifyOtp(String otp, String? numberNull) async {
     try {
-      final number = state.value?.sendOtpResponse?.mobile_number;
+      final number = ref
+          .read(sendOtpControllerProvider)
+          .asData
+          ?.value
+          ?.mobile_number;
+      // final number = state.value?.sendOtpResponse?.mobile_number;
       state = const AsyncLoading();
       final result = await ref
           .read(authRepositoryProvider)

@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_ui_controller.dart';
+import 'package:wedding_app/features/auth/presentation/controller/send_otp_controller.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/verification_page/verification_page_confirm_button.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/verification_page/verification_page_expired_timer.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/verification_page/verification_page_input_button.dart';
@@ -34,7 +35,6 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
   void initState() {
     super.initState();
     controller = TextEditingController();
-    if (widget.number != null) {}
   }
 
   @override
@@ -66,17 +66,46 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
       }
       if (next is AsyncData) {
         context.pop();
-        if (ref.read(authUiControllerProvider).isResendVisible) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(context.tr('resendCode'))));
-        } else {
-          context.push(Routes.home);
-        }
+        // if (ref.read(authUiControllerProvider).isResendVisible) {
+        //   ScaffoldMessenger.of(
+        //     context,
+        //   ).showSnackBar(SnackBar(content: Text(context.tr('resendCode'))));
+        // } else {
+        context.push(Routes.home);
+        // }
       }
     });
 
-    // ref.listen(authControllerProvider,(pre))
+    ref.listen(sendOtpControllerProvider, (prev, next) {
+      if (next is AsyncLoading) {
+        AppAlert.showLoadingDialog(context);
+      }
+
+      if (next is AsyncError) {
+        if (prev is AsyncLoading) context.pop();
+        Future.delayed(const Duration(milliseconds: 100), () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.all(16),
+              content: Text(next.asError!.error.toString()),
+            ),
+          );
+        });
+      }
+      if (next is AsyncData) {
+        context.pop();
+        ref
+            .read(authUiControllerProvider.notifier)
+            .makeResendButtonVisibleOrNo(false);
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(context.tr('resendCode'))));
+        // } else {
+        // context.push(Routes.home);
+        // }
+      }
+    });
 
     return Scaffold(
       body: Form(
@@ -125,8 +154,8 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
                   child: Consumer(
                     builder: (context, ref, _) {
                       final number = ref.read(
-                        authControllerProvider.select((val) {
-                          return val.value?.sendOtpResponse?.mobile_number;
+                        sendOtpControllerProvider.select((val) {
+                          return val.value?.mobile_number;
                         }),
                       );
                       return Text(
@@ -171,13 +200,12 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
               child: TextButton(
                 onPressed: () {
                   final number = ref
-                      .read(authControllerProvider)
+                      .read(sendOtpControllerProvider)
                       .value
-                      ?.sendOtpResponse
                       ?.mobile_number;
 
                   ref
-                      .read(authControllerProvider.notifier)
+                      .read(sendOtpControllerProvider.notifier)
                       .sendOtp(number: widget.number ?? number ?? '');
                 },
                 child: Text(

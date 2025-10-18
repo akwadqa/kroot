@@ -23,7 +23,7 @@
     "scan_code": "Scan Code",
     "scan_again": "Scan again",
     "sign_in_done_successfully": "Sign in done successfully",
-    "app_title": "Wedding",
+    "appTitle": "Kroot",
     "next": "Next",
     "submit": "Submit",
     "get_started": "Get started",
@@ -116,5 +116,10 @@
     "terms&conditions" : "Terms & Condition",
     "findEventHere" : "Find Event Here",
     "allEvents" : "All Events",
-    "resendCode": "The code resend successful"
+    "resendCode": "The code resend successful",
+    "add" : "Add",
+    "scan" : "Scan",
+    "enterPhone" : "Please enter phone number",
+    "invalidNumber" : "Invalid phone number"
+    
 }

@@ -33,6 +33,9 @@ class $AssetsFontsGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/add_ic.svg
+  SvgGenImage get addIc => const SvgGenImage('assets/icons/add_ic.svg');
+
   /// File path: assets/icons/agree_terms_correct_ic.svg
   SvgGenImage get agreeTermsCorrectIc =>
       const SvgGenImage('assets/icons/agree_terms_correct_ic.svg');
@@ -88,6 +91,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/home.svg
   SvgGenImage get home => const SvgGenImage('assets/icons/home.svg');
 
+  /// File path: assets/icons/home_ic.svg
+  SvgGenImage get homeIc => const SvgGenImage('assets/icons/home_ic.svg');
+
   /// File path: assets/icons/last_name_person_ic.svg
   SvgGenImage get lastNamePersonIc =>
       const SvgGenImage('assets/icons/last_name_person_ic.svg');
@@ -105,8 +111,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/profile.svg
   SvgGenImage get profile => const SvgGenImage('assets/icons/profile.svg');
 
+  /// File path: assets/icons/profile_ic.svg
+  SvgGenImage get profileIc => const SvgGenImage('assets/icons/profile_ic.svg');
+
   /// File path: assets/icons/qr.svg
   SvgGenImage get qr => const SvgGenImage('assets/icons/qr.svg');
+
+  /// File path: assets/icons/scan_ic.svg
+  SvgGenImage get scanIc => const SvgGenImage('assets/icons/scan_ic.svg');
 
   /// File path: assets/icons/settings.svg
   SvgGenImage get settings => const SvgGenImage('assets/icons/settings.svg');
@@ -125,6 +137,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
+    addIc,
     agreeTermsCorrectIc,
     appleIc,
     arrowIc,
@@ -141,12 +154,15 @@ class $AssetsIconsGen {
     firstNamePersonIc,
     googleIc,
     home,
+    homeIc,
     lastNamePersonIc,
     locationIc,
     mobileIc,
     phoneIc,
     profile,
+    profileIc,
     qr,
+    scanIc,
     settings,
     verificationArrowBackIc,
     verifiedCheckIc,

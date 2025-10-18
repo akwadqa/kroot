@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_ui_controller.dart';
+import 'package:wedding_app/features/auth/presentation/controller/send_otp_controller.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 
@@ -25,8 +26,8 @@ class _VerificationPageExpiredTimerState
     super.initState();
     startTimer();
     _remainingSeconds = ref.read(
-      authControllerProvider.select((val) {
-        return val.asData?.value?.sendOtpResponse?.allow_login_after ?? 0;
+      sendOtpControllerProvider.select((val) {
+        return val.asData!.value!.allow_login_after!;
       }),
     );
   }
@@ -60,7 +61,7 @@ class _VerificationPageExpiredTimerState
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(authControllerProvider, (pre, next) {
+    ref.listen(sendOtpControllerProvider, (pre, next) {
       if (next is AsyncData) {
         _timer?.cancel();
         ref
@@ -68,8 +69,8 @@ class _VerificationPageExpiredTimerState
             .makeResendButtonVisibleOrNo(false);
         startTimer();
         _remainingSeconds = ref.read(
-          authControllerProvider.select((val) {
-            return val.asData?.value?.sendOtpResponse?.allow_login_after ?? 0;
+          sendOtpControllerProvider.select((val) {
+            return val.asData!.value!.allow_login_after!;
           }),
         );
       }

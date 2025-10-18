@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_ui_controller.dart';
+import 'package:wedding_app/features/auth/presentation/controller/send_otp_controller.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/create_account_page/create_account_page_confirm_button.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/create_account_page/create_account_terms.dart';
@@ -47,10 +48,10 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //? Listener for create account :
     ref.listen(authControllerProvider, (prev, next) {
       if (next is AsyncError) {
         context.pop();
-        // context.pushReplacement(Routes.home);
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(next.error.toString())));
@@ -61,19 +62,32 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
       }
 
       if (next is AsyncData) {
-        context.pop();
-        // context.push(Routes.home);
-        context.push(Routes.verification, extra: widget.number);
         ref
-            .read(authControllerProvider.notifier)
-            .sendOtp(number: widget.number, isFromCreate: true);
+            .read(sendOtpControllerProvider.notifier)
+            .sendOtp(number: widget.number);
+      }
+    });
+
+    //? Listener for navigate to verify page :
+    ref.listen(sendOtpControllerProvider, (prev, next) {
+      if (next is AsyncError) {
+        context.pop();
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(next.error.toString())));
+      }
+
+      //? We don't need here a loading because we didn't pop last loading 
+
+      if (next is AsyncData) {
+        context.pop();
         ref
             .read(authUiControllerProvider.notifier)
             .makeResendButtonVisibleOrNo(false);
-
-        // ref.read(authUiControllerProvider.notifier).checkPhoneFilled(false);
+        context.push(Routes.verification, extra: widget.number);
       }
     });
+
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('newAccount')),
       body: SingleChildScrollView(
